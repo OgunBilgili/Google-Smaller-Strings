@@ -54,7 +54,7 @@ namespace SmallerStrings
                                 C = string.Concat(C, letters[y].ToString());
                                 Strings.Add(C);
 
-                                if (C.Length == Nlist[i])
+                                if (C.Length == Nlist[i] && !C.Equals(Slist[i]))
                                     CheckPalindrome(C);
 
                                 if (C.Equals(Slist[i]))
