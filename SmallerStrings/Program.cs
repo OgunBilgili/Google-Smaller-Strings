@@ -9,6 +9,9 @@ namespace SmallerStrings
     {
         public static List<string> Strings = new List<string>();
         public static List<string> Palindromes = new List<string>();
+        public static List<int> Nlist = new List<int>();
+        public static List<int> Klist = new List<int>();
+        public static List<string> Slist = new List<string>();
 
         static void Main(string[] args)
         {
@@ -16,57 +19,69 @@ namespace SmallerStrings
                                         's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
             bool flag = true;   //It`s used to check whether expression generator reached the designated string or not, if reached it stops generating
-            int testCases, N, K, loopCounterforLenght, additionalCounter;
-            string S = string.Empty, C = string.Empty;
+            int testCases, loopCounterforLenght, additionalCounter, Parser;
+            string C = string.Empty;
+
+            testCases = Int32.Parse(Console.ReadLine());    //Refers to number of test cases
             
-            testCases = 3;
-            N = 2;  //Refers to lenght of given string
-            K = 3;  //Refers to Alphabet range
-            S = "bc";   //Refers to given string piece   
-
-            for(int x = 0; x < K && flag == true; x++)
+            for(int i = 0; i < testCases; i++)
             {
-                loopCounterforLenght = 1;
-                additionalCounter = Strings.Count;
-                Strings.Add(letters[x].ToString());
-                
-                while (loopCounterforLenght < N && flag == true)
+                Parser = Int32.Parse(Console.ReadLine().Replace(" ", ""));
+                Nlist.Add(Parser / 10);  //Refers to lenght of given string
+                Klist.Add(Parser % 10);  //Refers to Alphabet range
+                Slist.Add(Console.ReadLine());   //Refers to given string piece
+            }
+          
+            for (int i = 0; i < testCases; i++)
+            {
+                for (int x = 0; x < Klist[i] && flag == true; x++)
                 {
-                    C = Strings[additionalCounter];
+                    loopCounterforLenght = 1;
+                    additionalCounter = Strings.Count;
+                    Strings.Add(letters[x].ToString());
 
-                    if (C.Length < N && C.First() <= S.First())
+                    while (loopCounterforLenght < Nlist[i] && flag == true)
                     {
-                        for (int y = 0; y < K && flag == true; y++)
+                        C = Strings[additionalCounter];
+
+                        if (C.Length < Nlist[i] && C.First() <= Slist[i].First())
                         {
-                            C = string.Concat(C, letters[y].ToString());
-                            Strings.Add(C);
-
-                            if(C.Length == N)
-                                CheckPalindrome(C);
-
-                            if (C.Equals(S))
-                                flag = false;
-
-                            C = C.Remove(C.Length - 1);
-
-                            if (y == K - 1)
+                            for (int y = 0; y < Klist[i] && flag == true; y++)
                             {
-                                additionalCounter++;
-                                if (Strings[additionalCounter].Length == N)
-                                    loopCounterforLenght++;
+                                C = string.Concat(C, letters[y].ToString());
+                                Strings.Add(C);
+
+                                if (C.Length == Nlist[i])
+                                    CheckPalindrome(C);
+
+                                if (C.Equals(Slist[i]))
+                                    flag = false;
+
+                                C = C.Remove(C.Length - 1);
+
+                                if (y == Klist[i] - 1)
+                                {
+                                    additionalCounter++;
+                                    if (Strings[additionalCounter].Length == Nlist[i])
+                                        loopCounterforLenght++;
+                                }
                             }
                         }
+                        else
+                        {
+                            loopCounterforLenght++;
+                        }
+                        C = string.Empty;
                     }
-                    else
-                    {
-                        loopCounterforLenght++;
-                    }
-                    C = string.Empty;
                 }
-            }
 
-            foreach(string a in Palindromes)
-                Console.WriteLine(a);
+                Console.WriteLine("Case #{0}: {1}", i, Palindromes.Count);
+                Palindromes.Clear();
+                Strings.Clear();
+                flag = true;
+            }
+            
+            
         }
 
         public static void CheckPalindrome(String C)
