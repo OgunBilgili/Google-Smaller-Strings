@@ -40,9 +40,12 @@ namespace SmallerStrings
                     additionalCounter = Strings.Count;
                     Strings.Add(letters[x].ToString());
 
-                    while (loopCounterforLenght < Nlist[i] && flag == true)
+                    while (loopCounterforLenght <= Nlist[i] && flag == true)
                     {
                         C = Strings[additionalCounter];
+
+                        if (C.Length == 1 && C.Length == Nlist[i] && C.First() < Slist[i].First())
+                            CheckPalindrome(C);
 
                         if (C.Length < Nlist[i] && C.First() <= Slist[i].First())
                         {
@@ -80,8 +83,6 @@ namespace SmallerStrings
                 Strings.Clear();
                 flag = true;
             }
-            
-            
         }
 
         public static void CheckPalindrome(String C)
